@@ -14,10 +14,12 @@ abstract class DataTableController extends Controller
 
 {
     /**
-     * if an entity is allowed to be created
-     * @var bool
+     * If an entity is allowed to be created.
+     *
+     * @var boolean
      */
     protected $allowCreation = true;
+
 
     /**
      * if an entity is allowed to be deleted
@@ -31,18 +33,29 @@ abstract class DataTableController extends Controller
      */
     protected $builder;
 
-    abstract public function builder();
+    //abstract public function builder();
 
+    /**
+     * Create the controller, check builder method and assign
+     * to the builder property.
+     *
+     * @return void
+     */
     public function __construct(){
-        $builder = $this->builder();
+        if (!method_exists($this, 'builder')) {
+            throw new Exception('No entity builder method defined.');
+        }
 
-       if(!$builder instanceof Builder){
-           throw new Exception('Entity Builder Not Instance of builder');
-       }
-
-       $this->builder = $builder;
+        if (!($this->builder = $this->builder()) instanceof Builder) {
+            throw new Exception("Entity builder not instance of Builder.");
+        }
     }
 
+    /**
+     * Show a list of entities.
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
     public function index(Request $request){
 
         return response()->json([
@@ -61,6 +74,11 @@ abstract class DataTableController extends Controller
         ]);
     }
 
+    /**
+     * Get the columns that are allowed to be displayed.
+     *
+     * @return array
+     */
     public function getDisplayableColumns(){
        return array_diff($this->getDatabaseColumnNames(), $this->builder->getModel()->getHidden());
     }
@@ -74,14 +92,35 @@ abstract class DataTableController extends Controller
         return [];
     }
 
+
+    /**
+     * Get Read Only Column Name
+     *
+     * @return array
+     */
     public function getReadOnlyColumnNames(){
         return [];
     }
 
+    /**
+     * Get the columns that are allowed to be updated.
+     *
+     * @return array
+     */
     public function getUpdatableColumns(){
         return  $this->getDisplayableColumns();
     }
 
+
+
+    /**
+     * Delete an entity.
+     *
+     * @param  integer  $id
+     * @param  Request $request
+     *
+     * @return Illuminate\Http\Response
+     */
     public function destroy($ids, Request $request){
         if(!$this->allowDeletion){
             return;
@@ -90,10 +129,24 @@ abstract class DataTableController extends Controller
     }
 
 
+
+    /**
+     * Get the database column names for the entity.
+     *
+     * @return array
+     */
     protected function getDatabaseColumnNames(){
         return Schema::getColumnListing($this->builder->getModel()->getTable());
     }
 
+
+
+    /**
+     * Get records to be used for output.
+     *
+     * @param  Request $request
+     * @return Illuminate\Support\Collection
+     */
     protected function getRecords(Request $request){
         $builder = $this->builder;
         if ($this->hasSearchQuery($request)){
@@ -107,21 +160,74 @@ abstract class DataTableController extends Controller
 
     }
 
+    /**
+     * Create an entity.
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        if (!$this->allowCreation) {
+            return;
+        }
+
+        $this->builder->create($request->only($this->getUpdatableColumns()));
+    }
+
+
+
+
+    /**
+     * Update an entity.
+     *
+     * @param  integer  $id
+     * @param  Request $request
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function update($id, Request $request)
+    {
+        $this->builder->find($id)->update($request->only($this->getUpdatableColumns()));
+    }
+
+
+
+    /**
+     * If the request has the columns required to search.
+     *
+     * @param  Request $request
+     * @return boolean
+     */
     protected function hasSearchQuery(Request $request){
         return count(array_filter($request->only(['column','operator','value']))) === 3;
     }
 
+
+
+    /**
+     * Build the search.
+     *
+     * @param  Builder $builder
+     * @param  Request $request
+     *
+     * @return Builder
+     */
     protected function buildSearch(Builder $builder, Request $request){
         $queryParts = $this->resolveQueryParts($request->operator, $request->value);
         return $builder->where($request->column, $queryParts['operator'], $queryParts['value']);
     }
 
 
+
+
     /**
-     * @param $operator
-     * @param $value
+     * Resolve the given operator to perform a query.
      *
-     * @return mixed
+     * @param   $operator
+     * @param  $value
+     *
+     * @return string
      */
     protected function resolveQueryParts($operator, $value){
         return Arr::get([

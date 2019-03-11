@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Service;
-use App\User;
-use Illuminate\Http\Request;
-use Mail;
+
 
 class AdminDashboardController extends Controller
 {
@@ -15,13 +13,24 @@ class AdminDashboardController extends Controller
         $this->middleware(['auth','is.admin']);
     }
 
+    /**
+     * Admininistrative Homepage for Services
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
         $user =\Auth::user();
         return view('admin_dashboard', compact('user'));
     }
 
+
+    /**
+     * Administrative Page For Editing Services
+     *
+     * @param \App\Service $service
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function editService(Service $service){
-        //dd($service);
         $user =\Auth::user();
         return view('editService', compact('user', 'service'));
     }

@@ -9,12 +9,21 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    /**
+     * Index Page - Search For Services
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(){
         return view('search');
     }
 
+
     /**
+     * Return Search Result in Json
      *
+     * @param \App\Http\Requests\SearchRequest $request
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function result(SearchRequest $request){
         if($request->distance !== 'Anywhere'){

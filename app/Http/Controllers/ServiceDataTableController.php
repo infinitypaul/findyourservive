@@ -78,11 +78,7 @@ class ServiceDataTableController extends DataTableController
        return $this->builder->where('id', $id)->first($this->getUpdatableColumns());
     }
 
-    /**
-     * Create a Record
-     * @return void
-     * @param \Illuminate\Http\Request $request
-     */
+
     public function store(Request $request){
         $this->validate($request, [
             'title' => 'required',
