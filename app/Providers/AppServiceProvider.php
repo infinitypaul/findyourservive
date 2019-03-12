@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,8 +16,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //This will allow your application to load the Laravel IDE Helper on non-production enviroments.
-        if ($this->app->environment() !== 'production') {
+        if ($this->app->environment('local', 'testing')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
         }
     }
 

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 {{ response.table | uppercase }}
-                <a class="float-right" v-if="response.allow.creation" href="#" @click.prevent="creating.active = !creating.active">
+                <a class="float-right" v-if="response.allow.creation" id="new_record" href="#" @click.prevent="creating.active = !creating.active">
                     {{ creating.active ? 'Cancel' : 'New Record'}}
                 </a>
             </div>

@@ -15,10 +15,11 @@ do
 done
 
 echo Installing dependencies
+#.scripts/npm.sh install
 .scripts/composer.sh install
 
 echo Seeding database
 rm -f bootstrap/cache/*.php
-#docker-compose exec -T app php artisan key:generate --env=testing && echo Key Generated Successfully
+docker-compose exec -T app php artisan key:generate --env=testing && echo Key Generated Successfully
 docker-compose exec -T app php artisan migrate --env=testing && echo Database migrated
 docker-compose exec -T app php artisan db:seed --env=testing && echo Database seeded

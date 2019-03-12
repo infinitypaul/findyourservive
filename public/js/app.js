@@ -39346,7 +39346,7 @@ var render = function() {
               "a",
               {
                 staticClass: "float-right",
-                attrs: { href: "#" },
+                attrs: { id: "new_record", href: "#" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -40417,7 +40417,10 @@ var staticRenderFns = [
       _c("div", { staticClass: "col-md-6 col-md-offset-3" }, [
         _c(
           "button",
-          { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "submit", id: "create" }
+          },
           [_vm._v("Create")]
         )
       ])

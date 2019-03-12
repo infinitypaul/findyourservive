@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Find Your Service
                 </div>
 
                 <div class="links">
