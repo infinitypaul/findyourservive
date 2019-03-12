@@ -70,4 +70,4 @@ Enjoy!
 
 ### License
 
-The Larasocial App is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The  Find Your Service App is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
