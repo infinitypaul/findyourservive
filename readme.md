@@ -47,6 +47,19 @@ git clone https://github.com/infinitypaul/findyourservive.git projectname
 
 2. Run the testrig.sh file on the Project Root Folder on your terminal/Command Prompt, This script does everything you need to run your this project. It starts up the servers, ensures the database is booted, installs dependencies, runs database migrations, and runs database seeds. These services are exposed to your computer on the standard ports, then you can access your website on http:localhost
 
+## Note
+
+   1 Visit https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform and copy the script below
+   
+    ><script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete"async defer></script>
+    
+   2 Replace YOUR_API_KEY with yours
+   
+   3 Locate app.blade.php in the Resources/Views/Layout Directory
+   
+   4 Add the script to your html head tag
+
+    
 
 ## Troubleshooting
 
