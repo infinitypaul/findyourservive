@@ -14,7 +14,9 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @if(!auth()->user()->is_admin)
+                        Change The is admin column in your user table to true to see admin features
+                    @endif
                 </div>
             </div>
         </div>
