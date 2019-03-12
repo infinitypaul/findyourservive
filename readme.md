@@ -67,3 +67,7 @@ git clone https://github.com/infinitypaul/findyourservive.git projectname
 - If you have any other issues, [report them](https://github.com/infinitypaul/findyourservive/issues).
 
 Enjoy!
+
+### License
+
+The Larasocial App is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
